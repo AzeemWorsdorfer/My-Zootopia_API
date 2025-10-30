@@ -73,15 +73,16 @@ def main():
     animals_data = fetch_animal_data(user_animal)
     template = read_template("animals_template.html")
 
-    if not animals_data or not template:
+    if not template:
         print("Missing data or template, aborting.")
         return
 
-    # Generate final output string
-    animal_output_str = ""
-    for animal in animals_data:
-        animal_output_str += serialize_animal(animal)
-
+    if animals_data:  # Generate final output string
+        animal_output_str = ""
+        for animal in animals_data:
+            animal_output_str += serialize_animal(animal)
+    else:
+        animal_output_str = f"<h2>The animal \'{user_animal}\' doesn't exist.</h2>"
     # Replace placeholder
     FINAL_PLACEHOLDER = "__REPLACE_ANIMALS_INFO__"
     final_html_content = template.replace(FINAL_PLACEHOLDER, animal_output_str)

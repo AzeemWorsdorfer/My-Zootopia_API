@@ -1,6 +1,11 @@
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+API_KEY = os.getenv('API_KEY')
 API_URL = "https://api.api-ninjas.com/v1/animals"
-API_KEY = "C0S1gL4QzfQyyuc2JhuVag==fVqI3LIdKPsYtYFt"
 
 
 def fetch_data(animal_name):
@@ -17,4 +22,3 @@ def fetch_data(animal_name):
     except requests.RequestException as e:
         print(f"Error fetching data for {animal_name}: {e}")
         return []
-

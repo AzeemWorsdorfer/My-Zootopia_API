@@ -1,13 +1,22 @@
 import json
+import requests
+API_URL = "https://api.api-ninjas.com/v1/animals"
+API_KEY = "C0S1gL4QzfQyyuc2JhuVag==fVqI3LIdKPsYtYFt"
 
 
-def load_data(file_path):
-    """Loads JSON file safely with utf-8 encoding"""
+def fetch_animal_data(animal_name):
+    """Fetches animal data from the API Ninja based on the animal name"""
+
+    headers = {"X-Api-Key": API_KEY}
+
+    params = {"name": animal_name}   # Define parameters for the API request
+
     try:
-        with open(file_path, "r", encoding="utf-8") as handle:
-            return json.load(handle)
-    except FileNotFoundError:
-        print(f"Error: {file_path} not found.")
+        response = requests.get(API_URL, headers=headers, params=params)
+        response.raise_for_status()  # Raise an error for bad responses
+        return response.json()
+    except requests.RequestException as e:
+        print(f"Error fetching data for {animal_name}: {e}")
         return []
 
 
@@ -60,7 +69,7 @@ def serialize_animal(animal):
 # Entry point for script execution
 def main():
     # Load data and template
-    animals_data = load_data("animals_data.json")
+    animals_data = fetch_animal_data("fox")
     template = read_template("animals_template.html")
 
     if not animals_data or not template:

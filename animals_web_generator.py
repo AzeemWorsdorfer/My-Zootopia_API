@@ -69,7 +69,8 @@ def serialize_animal(animal):
 # Entry point for script execution
 def main():
     # Load data and template
-    animals_data = fetch_animal_data("fox")
+    user_animal = input("Enter the name of an animal: ")
+    animals_data = fetch_animal_data(user_animal)
     template = read_template("animals_template.html")
 
     if not animals_data or not template:
